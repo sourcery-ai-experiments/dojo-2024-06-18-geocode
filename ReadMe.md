@@ -11,4 +11,4 @@ or follow these instructions at a bash prompt.
 1. `cd` somewhere suitable and then clone in the usual way: `$ git clone https://github.com/jhanley634/dojo-2024-06-18-geocode.git`
 2. `cd` into the repo: `$ cd dojo-2024-06-18-geocode`
 3. Create a new virtual environment: `$ make venv` (actually just `make` suffices)
-4. Activate the virtual environment: `$ source ~/.venv/dojo-geocode/bin/activate`
+4. Activate the venv: `$ source ~/.venv/dojo-geocode/bin/activate`
