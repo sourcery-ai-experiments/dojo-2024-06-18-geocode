@@ -1,11 +1,12 @@
 # from https://replit.com/@ControlAltPete/Hacker-Dojo-Python-Meetup#speed-compare.py
-import time
-import requests
 import asyncio
-import aiohttp
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import time
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
-URL = 'https://jsonplaceholder.typicode.com/posts'
+import aiohttp
+import requests
+
+URL = "https://jsonplaceholder.typicode.com/posts"
 
 # Number of requests to make
 NUM_REQUESTS = 100
@@ -33,18 +34,14 @@ async def fetch_all_async():
 # Function to make requests using threading
 def fetch_all_threading():
     with ThreadPoolExecutor() as executor:
-        futures = [
-            executor.submit(fetch_sync, URL) for _ in range(NUM_REQUESTS)
-        ]
+        futures = [executor.submit(fetch_sync, URL) for _ in range(NUM_REQUESTS)]
         return [future.result() for future in futures]
 
 
 # Function to make requests using multiprocessing
 def fetch_all_multiprocessing():
     with ProcessPoolExecutor() as executor:
-        futures = [
-            executor.submit(fetch_sync, URL) for _ in range(NUM_REQUESTS)
-        ]
+        futures = [executor.submit(fetch_sync, URL) for _ in range(NUM_REQUESTS)]
         return [future.result() for future in futures]
 
 
@@ -58,7 +55,8 @@ def measure_time(func):
 def main():
     print("Starting synchronous requests...")
     duration_sync, _ = measure_time(
-        lambda: [fetch_sync(URL) for _ in range(NUM_REQUESTS)])
+        lambda: [fetch_sync(URL) for _ in range(NUM_REQUESTS)]
+    )
     print(f"Synchronous: {duration_sync:.2f} seconds")
 
     print("Starting asyncio requests...")
