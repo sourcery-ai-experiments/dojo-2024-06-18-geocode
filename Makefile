@@ -1,5 +1,7 @@
 # Copyright 2024 John Hanley. MIT licensed.
 
+SHELL = bash -u -e -o pipefail
+
 VENV_DIR = $(HOME)/.venv/dojo-geocode
 ACTIVATE = source $(VENV_DIR)/bin/activate
 
@@ -22,10 +24,11 @@ $(VENV_DIR)/bin/activate: requirements.txt
 
 # The bjoern WSGI webserver depends on the libev event library.
 libev:
-	which brew    &&      brew info libev || brew install libev
-	which apt-get && sudo apt-get install -y libev-dev
+	-which brew    &&      brew info libev || brew install libev
+	-which apt-get && sudo apt-get install -y libev-dev
 
 URL = http://localhost:8000/
+
 ab:
 	bin/python.sh -c 'import bjoern, flask'
 	curl $(URL)  2> /dev/null || bin/python.sh web_bench/server.py &

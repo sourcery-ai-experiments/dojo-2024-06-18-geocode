@@ -5,7 +5,6 @@ from time import sleep
 import bjoern
 from flask import Flask
 
-
 five_paragraphs = """
 Lorem ipsum dolor sit amet, consectetur
 adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
