@@ -1,5 +1,10 @@
+aiohttp >= 3.9.5
+bjoern >= 3.2.2
 black >= 24.4.2
+flask >= 3.0.3
 isort >= 5.13.2
 mypy >= 1.10.0
 pytest-cov >= 5.0.0
+requests >= 2.32.3
 ruff >= 0.4.9
+types-colorama >= 0.4.15.20240311
