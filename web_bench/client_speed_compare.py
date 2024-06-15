@@ -1,58 +1,82 @@
 # from https://replit.com/@ControlAltPete/Hacker-Dojo-Python-Meetup#speed-compare.py
 import asyncio
 import time
+from collections.abc import Callable
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
 import aiohttp
 import requests
+from aiohttp import ClientSession
+from typing_extensions import Any
 
 URL = "https://jsonplaceholder.typicode.com/posts"
 
-# Number of requests to make
 NUM_REQUESTS = 100
 
 
 # Synchronous function to make a request
-def fetch_sync(url):
+def fetch_sync(url: str) -> list[dict[str, str | int]]:
     response = requests.get(url)
-    return response.json()
+    json = list(response.json())
+    for d in json:
+        assert ["userId", "id", "title", "body"] == list(d.keys())
+        for v in d.values():
+            assert isinstance(v, (str, int))
+        assert d["userId"] <= 10, d
+        assert d["id"] <= 100, d
+    return json
 
 
 # Asynchronous function to make a request
-async def fetch_async(session, url):
+async def fetch_async(session: ClientSession, url: str) -> Any:
     async with session.get(url) as response:
         return await response.json()
 
 
 # Function to make requests using asyncio
-async def fetch_all_async():
+async def fetch_all_async() -> Any:
     async with aiohttp.ClientSession() as session:
         tasks = [fetch_async(session, URL) for _ in range(NUM_REQUESTS)]
         return await asyncio.gather(*tasks)
 
 
 # Function to make requests using threading
-def fetch_all_threading():
+def fetch_all_threading() -> list[list[dict[str, str | int]]]:
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(fetch_sync, URL) for _ in range(NUM_REQUESTS)]
         return [future.result() for future in futures]
 
 
 # Function to make requests using multiprocessing
-def fetch_all_multiprocessing():
+def fetch_all_multiprocessing() -> list[list[dict[str, str | int]]]:
     with ProcessPoolExecutor() as executor:
         futures = [executor.submit(fetch_sync, URL) for _ in range(NUM_REQUESTS)]
         return [future.result() for future in futures]
 
 
-def measure_time(func):
+def measure_time(
+    func: Callable[[], list[list[dict[str, str | int]]]]
+) -> tuple[float, Any]:
     start_time = time.time()
     result = func()
     duration = time.time() - start_time
+    tot = total(result)
+    assert 1_055_000 == tot, tot
     return duration, result
 
 
-def main():
+def total(responses: list[list[dict[str, str | int]]]) -> float:
+    acc = 0.0
+    assert NUM_REQUESTS == len(responses)
+    for response in responses:
+        assert 100 == len(response), len(response)
+        for d in response:
+            acc += int(d["userId"]) / 0.1
+            acc += int(d["id"])
+    return acc
+
+
+def main() -> None:
     print("Starting synchronous requests...")
     duration_sync, _ = measure_time(
         lambda: [fetch_sync(URL) for _ in range(NUM_REQUESTS)]
