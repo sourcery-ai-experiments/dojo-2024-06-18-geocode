@@ -8,10 +8,8 @@ import pandas as pd
 import seaborn as sns
 import typer
 from matplotlib import pyplot as plt
-from matplotlib import rcParams
 from matplotlib.axes import Axes
 from matplotlib.backends.backend_pdf import PdfPages
-from matplotlib.pyplot import figure
 from seaborn import FacetGrid
 
 
@@ -36,15 +34,10 @@ def speed_chart(input_logfile: Path = Path("/tmp/timings.txt")) -> None:
 
     def savefig(pdf: PdfPages, fig: Axes | FacetGrid) -> None:
         assert fig
-        # print(figure().get_size_inches())
         pdf.savefig()  # type: ignore [no-untyped-call]
         plt.close()
 
     with PdfPages(input_logfile.with_suffix(".pdf"), keep_empty=False) as pdf:  # type: ignore [no-untyped-call]
-        # sns.set_theme(rc={"figure.figsize": (3, 5)})
-        # rcParams["figure.figsize"] = 3, 5
-        # figure(figsize=(8, 6))
-        figsize = {"height": 3, "aspect": 1.3}
         savefig(pdf, sns.boxplot(data=df))
         savefig(pdf, sns.catplot(data=df))
         savefig(pdf, sns.violinplot(data=df))
