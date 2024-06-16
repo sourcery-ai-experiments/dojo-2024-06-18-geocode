@@ -17,8 +17,7 @@ def _get_rows(input_logfile: Path) -> Generator[dict[str, float], None, None]:
     seconds_re = re.compile(r"^(\w+): *([\d\.]+) *seconds$")
     row = []
     for line in input_logfile.read_text().splitlines():
-        m = seconds_re.search(line)
-        if m:
+        if m := seconds_re.search(line):
             row.append((m[1].lower(), float(m[2])))
             if m[1] == "Multiprocessing":
                 yield dict(sorted(row))

@@ -3,11 +3,11 @@ import asyncio
 import time
 from collections.abc import Callable
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from typing import Any
 
 import aiohttp
 import requests
 from aiohttp import ClientSession
-from typing_extensions import Any
 
 URL = "https://jsonplaceholder.typicode.com/posts"
 
