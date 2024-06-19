@@ -11,17 +11,31 @@ assert tqdm
 data_dir = Path(__file__).parent / "data"
 
 
+def _get_known_locations(geocoded_csv: Path) -> set[str]:
+    known_locations = set()
+    with open(geocoded_csv) as fin:
+        sheet = csv.DictReader(fin)
+        for row in sheet:
+            known_locations.add((row["address"]))
+    return known_locations
+
+
 def geocode():
     """Adds lat, lon columns to df."""
 
-    with open(data_dir / "geocoded.csv", "w") as fout:
+    geocoded_csv = data_dir / "geocoded.csv"
+    known_locations = _get_known_locations(geocoded_csv)
+
+    with open(geocoded_csv, "w") as fout:
         fields = "address,city,st,zip,housenum,street,lat,lon"
         sheet = csv.DictWriter(fout, fieldnames=fields.split(","))
-        sheet.writeheader()
+        if len(known_locations) == 0:
+            sheet.writeheader()
 
         geolocator = ArcGIS()
-        # rows = [row for _, row in df.iterrows()]
         for _, row in pd.read_csv(data_dir / "resident_addr.csv").iterrows():
+            if row.address in known_locations:
+                continue
             addr = f"{row.address}, {row.city}, {row.st} {row.zip}"
             location = geolocator.geocode(addr)
             if location:
@@ -31,7 +45,6 @@ def geocode():
                 sheet.writerow(row)
                 fout.flush()
                 print(end=".", flush=True)
-                print(dict(row))
                 yield dict(row)
             else:
                 print(f"Could not geocode {addr}")
