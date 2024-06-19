@@ -1,6 +1,7 @@
 *~
 .coverage
 .coverage.*
+.dmypy.json
 .hypothesis/
 .idea/
 .ipynb_checkpoints/
