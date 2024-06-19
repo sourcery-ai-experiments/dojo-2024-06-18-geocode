@@ -9,6 +9,7 @@ from tqdm import tqdm
 
 assert tqdm
 data_dir = Path(__file__).parent / "data"
+geocoded_csv = data_dir / "geocoded.csv"
 
 
 def _get_known_locations(geocoded_csv: Path) -> set[str]:
@@ -23,7 +24,6 @@ def _get_known_locations(geocoded_csv: Path) -> set[str]:
 def geocode():
     """Adds lat, lon columns to df."""
 
-    geocoded_csv = data_dir / "geocoded.csv"
     known_locations = _get_known_locations(geocoded_csv)
 
     with open(geocoded_csv, "w") as fout:
