@@ -5,7 +5,9 @@ SHELL = bash -u -e -o pipefail
 VENV_DIR = $(HOME)/.venv/dojo-geocode
 ACTIVATE = source $(VENV_DIR)/bin/activate
 
-all: venv libev lint
+OUT = web_bench/data/timing.csv
+
+all: venv libev lint $(OUT)
 
 venv: debug-venv $(VENV_DIR)
 
@@ -40,5 +42,12 @@ ab:
 lint:
 	$(ACTIVATE) && black . && isort . && ruff check .
 	$(ACTIVATE) && mypy --strict --warn-unreachable --ignore-missing-imports .
+
+web_bench/data/timing.csv:
+	$(ACTIVATE) && bin/python.sh web_bench/client_speed_chart.py \
+      --input-logfile=$(subst .csv,.txt,$@)
+
+clean:
+	rm -rf $(OUT)
 
 .PHONY: venv debug-venv libev ab lint
