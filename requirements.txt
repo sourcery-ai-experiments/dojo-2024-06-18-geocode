@@ -1,4 +1,6 @@
 aiohttp >= 3.9.5
+basemap >= 1.4.1
+basemap-data-hires >= 1.3.2
 bjoern >= 3.2.2
 black >= 24.4.2
 flask >= 3.0.3
