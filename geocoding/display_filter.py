@@ -31,13 +31,14 @@ def display_filtered_san_mateo_map() -> None:
     plt.title("San Mateo")
 
     df = pd.DataFrame(_get_rows(m))
+    print(df)
     for _, row in df.iterrows():
         m.plot(row.x, row.y, "bo", markersize=5)
     plt.show()
 
 
 def _get_rows(m: Basemap) -> Generator[dict[str, float | str], None, None]:
-    for lon, lat, addr in get_residences():
+    for lon, lat, addr, zip in get_residences():
         x, y = m(lon, lat)
         yield {"x": x, "y": y, "addr": addr}
 

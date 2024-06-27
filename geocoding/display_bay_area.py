@@ -8,6 +8,7 @@ This is straight from the Basemap tutorial,
 plus some we plot some residences.
 """
 import csv
+from collections.abc import Generator
 from random import randrange
 
 import matplotlib.pyplot as plt
@@ -41,20 +42,20 @@ def display_bay_area_map() -> None:
     plt.show()
 
 
-def _show_residences(m):
-    for lon, lat, addr in get_residences():
+def _show_residences(m: Basemap) -> None:
+    for lon, lat, addr, _ in get_residences():
         x, y = m(lon, lat)
         m.plot(x, y, "bo", markersize=5)
         if randrange(100) < 3:
             plt.text(x, y, addr)
 
 
-def get_residences():
+def get_residences() -> Generator[tuple[float, float, str, str], None, None]:
     with open(data_dir / "geocoded.csv") as fin:
         sheet = csv.DictReader(fin)
         for row in sheet:
             lon, lat = map(float, (row["lon"], row["lat"]))
-            yield lon, lat, _title(row["address"])
+            yield lon, lat, _title(row["address"]), row["zip"]
 
 
 def _title(s: str) -> str:
