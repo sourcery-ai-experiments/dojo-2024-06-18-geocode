@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from mpl_toolkits.basemap import Basemap
 
-from geocoding.display_bay_area import get_residences
+from geocoding.display_2_bay_area import get_residences
 
 light_brown = "#E7B36A"
 
