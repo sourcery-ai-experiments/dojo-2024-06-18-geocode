@@ -4,8 +4,12 @@
 Display a map of the San Francisco Bay Area,
 with a scale indication plotted at the location of the Hacker Dojo.
 
-This comes straight from the Basemap tutorial.
+This is straight from the Basemap tutorial,
+plus some we plot some residences.
 """
+import csv
+from random import randrange
+
 import matplotlib.pyplot as plt
 import numpy as np
 from geocode import data_dir
@@ -15,7 +19,6 @@ dojo = (-122.049020, 37.3963152)  # 855 W Maude Ave, Mtn. View
 
 
 def display_bay_area_map() -> None:
-    assert data_dir.exists()
     m = Basemap(
         projection="merc",
         urcrnrlat=38,
@@ -33,8 +36,30 @@ def display_bay_area_map() -> None:
     m.drawparallels(np.arange(30.0, 50.0, 0.1))
     m.drawmeridians(np.arange(-130.0, -110.0, 0.1))
     m.drawmapboundary(fill_color="aqua")
-    plt.title("Mercator Projection")
+    plt.title("SF Bay Area")
+    _show_residences(m)
     plt.show()
+
+
+def _show_residences(m):
+    for lon, lat, addr in get_residences():
+        x, y = m(lon, lat)
+        m.plot(x, y, "bo", markersize=5)
+        if randrange(100) < 3:
+            plt.text(x, y, addr)
+
+
+def get_residences():
+    with open(data_dir / "geocoded.csv") as fin:
+        sheet = csv.DictReader(fin)
+        for row in sheet:
+            lon, lat = map(float, (row["lon"], row["lat"]))
+            yield lon, lat, _title(row["address"])
+
+
+def _title(s: str) -> str:
+    words = s.split()
+    return " ".join(map(str.title, words))
 
 
 if __name__ == "__main__":
