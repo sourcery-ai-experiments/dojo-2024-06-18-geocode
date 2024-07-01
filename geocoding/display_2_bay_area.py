@@ -45,8 +45,8 @@ def display_bay_area_map() -> None:
 def _show_residences(m: Basemap) -> None:
     for lon, lat, addr, _ in get_residences():
         x, y = m(lon, lat)
-        m.plot(x, y, "bo", markersize=5)
-        if randrange(100) < 3:
+        m.plot(x, y, "bo", markersize=3)
+        if randrange(100) < 1:
             plt.text(x, y, addr)
 
 

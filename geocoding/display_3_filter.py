@@ -33,7 +33,7 @@ def display_filtered_san_mateo_map() -> None:
     df = pd.DataFrame(_get_rows(m))
     print(df)
     for _, row in df.iterrows():
-        m.plot(row.x, row.y, "bo", markersize=5)
+        m.plot(row.x, row.y, "bo", markersize=3)
     plt.show()
 
 
