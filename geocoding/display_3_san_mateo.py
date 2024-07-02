@@ -1,9 +1,10 @@
 #! /usr/bin/env python
 # Copyright 2024 John Hanley. MIT licensed.
 """
-Display a map of residences in southern San Mateo County.
+Produces a .PNG map of residences in southern San Mateo County.
 """
 from collections.abc import Generator
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,11 +12,13 @@ from mpl_toolkits.basemap import Basemap
 
 from geocoding.display_2_bay_area import get_residences
 
+temp = Path("/tmp")
+san_mateo_png = temp / "san_mateo.png"
+scale_loc = -122.1425, 37.452
 light_brown = "#E7B36A"
 
 
 def display_filtered_san_mateo_map() -> None:
-    scale_loc = -122.1425, 37.452
     m = Basemap(
         projection="merc",
         urcrnrlat=37.48,
@@ -34,6 +37,8 @@ def display_filtered_san_mateo_map() -> None:
     print(df)
     for _, row in df.iterrows():
         m.plot(row.x, row.y, "bo", markersize=3)
+
+    plt.savefig(san_mateo_png)
     plt.show()
 
 
