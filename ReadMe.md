@@ -1,6 +1,6 @@
 
 This repo supports a pair of [talks](https://www.meetup.com/hackerdojo/events)
-given Tuesday June 18th & July 2nd at the [Hacker Dojo](https://www.hackerdojo.com).
+given Tuesday June 18th and July 2nd at the [Hacker Dojo](https://www.hackerdojo.com).
 Start out by following these setup instructions.
 
 # setup
@@ -40,8 +40,8 @@ We find (lat, long) pairs for the several thousand residential addresses
 in data/resident_addr.csv, storing API results to data/geocoded.csv.
 You can run `geocode.py` with `$ make geocoding/data/geocoded.csv`.
 
-With (lat, long)'s in hand, we can display them in several ways.
+With (lat, long) values in hand, we can display them in several ways.
 1. simple -- a streamlit app, which supports Open Street Map drill downs
 2. bay_area -- a matplotlib overview that shows coastlines
 3. san_mateo -- zoomed in on San Mateo county, showing its southern border
-4. filter -- a flask server that lets us focus on the houses of a given street
+4. filter -- a Flask server that lets us focus on the houses of a given street

@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env FLASK_DEBUG=1 python
 # Copyright 2024 John Hanley. MIT licensed.
 """
 Display a web page map of residences in southern San Mateo County.
@@ -75,4 +75,4 @@ def prettify(html: str) -> str:
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
