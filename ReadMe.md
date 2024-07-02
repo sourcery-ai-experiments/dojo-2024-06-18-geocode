@@ -1,6 +1,6 @@
 
-This repo supports a [talk](https://www.meetup.com/hackerdojo/events)
-given Tuesday June 18th at the [Hacker Dojo](https://www.hackerdojo.com).
+This repo supports a pair of [talks](https://www.meetup.com/hackerdojo/events)
+given Tuesday June 18th & July 2nd at the [Hacker Dojo](https://www.hackerdojo.com).
 Start out by following these setup instructions.
 
 # setup
